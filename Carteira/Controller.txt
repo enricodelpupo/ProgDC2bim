@@ -1,0 +1,33 @@
+@RestController
+@RequestMapping("/api/wallets")
+public class ControllerCarteira {
+
+    private final RepositorioCarteira repCarteira;
+
+    public ControllerCarteira(RepositorioCarteira repCarteira) {
+        this.repCarteira = repCarteira;
+    }
+
+    @PostMapping
+    public Carteira criarCarteira(@RequestBody Carteira carteira) {
+        return repCarteira.save(carteira);
+    }
+
+    @GetMapping("/{id}")
+    public Carteira getCarteira(@PathVariable Long id) {
+        return repCarteira.findById(id)
+                .orElseThrow(() -> new CarteiraNotFoundException(id));
+    }
+
+    @PutMapping("/{id}")
+    public Carteira updateCarteira(@PathVariable Long id, @RequestBody Carteira updatedCarteira) {
+    Carteira existingCarteira = repCarteira.findById(id)
+            .orElseThrow(() -> new CarteiraNotFoundException(id));
+
+    existingCarteira.setName(updateCarteira.getName());
+    existingCarteira.setDescription(updateCarteira.getDescription());
+
+    return repCarteira.save(existingCarteira);
+}
+
+}
