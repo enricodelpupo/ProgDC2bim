@@ -1,0 +1,41 @@
+using System.Collections.Generic;
+
+public interface ServicoAstrologia
+{
+    MensagemDoDia GetMensagemDoDia(string sign);
+    AdvancedInfoAstrologia GetAdvancedInfoAstrologia(string sign);
+}
+
+public class ServicoAstrologia: ServicoAstrologia
+{
+    private readonly Dicionario<string, MensagemDoDia> mensagemDia;
+    private readonly Dicionario<string, AdvancedInfoAstrologia> _advancedInfoAstrologia;
+
+    public ServicoAstrologia()
+    {
+        mensagemDia = new Dicionario<string, MensagemDoDia>();
+        advancedInfoAstrologia = new Dictionary<string, AdvancedInfoAstrologia>();
+
+        // Initialize daily messages and advanced astrology infos for each sign
+    }
+
+    public MensagemDoDia GetMensagemDoDia(string sign)
+    {
+        if (mensagemDia.ContainsKey(sign))
+        {
+            return mensagemDia[sign];
+        }
+
+        // Generate daily message for the specified sign
+    }
+
+    public AdvancedInfoAstrologia GetAdvancedInfoAstrologia(string sign)
+    {
+        if (_advancedInfoAstrologia.ContainsKey(sign))
+        {
+            return _advancedInfoAstrologia[sign];
+        }
+
+        // Generate advanced astrology info for the specified sign
+    }
+}

@@ -1,0 +1,20 @@
+import org.springframework.web.client.RestTemplate;
+
+public class Astrologia {
+
+    private static final String BASE_URL = "http://localhost:5000/api/astrology";
+
+    public static void main(String[] args) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String sign = "Aries";
+
+        MensagemDoDia mensagemDia = restTemplate.getForObject(BASE_URL + "/" + sign, MensagemDoDia.class);
+        System.out.println("Mensagem do dia para " + sign + ": " + mensagemDia.getMensagem());
+
+        AdvancedInfoAstrologia advancedInfo = restTemplate.getForObject(BASE_URL + "/" + sign + "/advanced", AdvancedInfo.class);
+        System.out.println("Inforamção Astrológica para " + sign + ":");
+        System.out.println("Lucky Number: " + advancedInfo.getLuckyNumber());
+        System.out.println("Previsão da semana: " + advancedInfo.getPrevisaoSemana());
+    }
+}
