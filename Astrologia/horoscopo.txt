@@ -1,0 +1,67 @@
+from pyngrok import ngrok
+from flask import Flask, jsonify, request
+
+public_url = ngrok.connect(5000)
+print('URL pública do servidor:', public_url)
+
+app = Flask(__name__)
+
+signos= {
+    "ares" : {
+        "mensagem" : "Chances de começar tudo de novo, de outro jeito, animarão o clima. Resolva assuntos financeiros e do coração com empatia, atitude e clareza nas conversas e negociações de hoje. Emoções fortes marcarão o dia, que favorecerá o amor e o início de parcerias. Tome a iniciativa nas relações e aprofunde vínculos em outro ambiente. Paixão, poder de conquista e criatividade em alta!",
+        "numero da sorte" : 16
+        },
+    "touro" : {
+        "mensagem" : "Um fechamento importante poderá alterar rumos. Retome uma atividade ou um projeto e dê um passo poderoso na carreira. O dia favorecerá o trabalho e as finanças. Aposte na diplomacia para contornar uma situação incômoda e esclareça valores. Objetivos ainda poderão mudar, com Mercúrio próximo a Urano em seu signo. Aposte nos planos de expansão e siga seus princípios.",
+        "numero da sorte" : 4
+        },
+    "gemeos" : {
+        "mensagem" : "Mente e espírito estarão integrados: respeite a intuição e siga seu coração. Inclua atividades na rotina que promovam bem-estar e equilíbrio físico. Valerá caminhar, treinar, movimentar o corpo e diminuir o estresse causado por discussões e burocracias. Sentimentos positivos darão sabor ao dia. Curta o momento e as coisas boas da vida. Amor com novos prazeres e sonhos!",
+        "numero da sorte" : 9
+        },
+    "cancer" : {
+        "mensagem" : "Carinho da família, conforto e proteção emocional darão serenidade e autoestima. Desafios na área financeira pedirão controle do orçamento e planejamento de novas despesas. Evite gastar dinheiro à toa. O foco numa viagem e nas necessidades básicas será o mais importante no momento. Finalize pendências e zere o passado. Um longo ciclo será finalizado com sucesso!",
+        "numero da sorte" : 3
+        },
+    "leao" : {
+        "mensagem" : "A luta por direitos e melhor qualidade de vida inspirará um passo maior na carreira, além de associações. Acerte documentos, resolva assuntos jurídicos e some forças com amigos numa causa nobre. Interesses coletivos falarão mais alto nesta fase. Assuma uma missão especial e rompa barreiras nos relacionamentos. Escolhas poderão mudar. Novos rumos pela frente!",
+        "numero da sorte" : 37
+        },
+    "virgem" : {
+        "mensagem" : "Encontros encantadores marcarão esta fase, que trará propostas atraentes, convites e maior exposição pública. Se deseja mudar de trabalho ou de rotina, o dia será especial. Você encontrará caminhos abertos para alavancar a carreira e aumentar seus rendimentos. Participe de um evento, amplie conexões internacionais e expanda os horizontes. Sucesso pela frente!",
+        "numero da sorte" : 22
+        },
+    "libra" : {
+        "mensagem" : "Planos de viagem servirão de incentivo para treinar a paciência nos relacionamentos e não se abalar com pequenas disputas e chatices alheias. Jogue a autoestima para cima e assuma mais autonomia. O dia trará ganho de prestígio, projeção e poder de influência. Invista na sua imagem, cuide da beleza, do equilíbrio e eleve os sentimentos. Em breve, as recompensas virão!",
+        "numero da sorte" : 53
+        },
+    "escorpiao" : {
+        "mensagem" : "Diminua a velocidade, acolha os sentimentos e se fortaleça interiormente. O dia destacará os sonhos e favorecerá atividades criativas. Solte a imaginação e transforme perdas dos últimos tempos em incentivo para novos projetos. Algo maior se desenhará no horizonte. Planeje mudanças e a evolução da carreira. A vida íntima ficará mais gostosa com uma viagem a dois.",
+        "numero da sorte" : 13
+        },
+    "sagitario" : {
+        "mensagem" : "Associação com uma amizade num projeto inovador facilitará a realização dos sonhos e conquista de melhor qualidade de vida. Aproxime amigos. Lute por justiça e aumente o engajamento num projeto social. Um curso on-line ou atividade em outra localidade poderá mudar bastante sua maneira de pensar. Renove conceitos e agilize tarefas com nova tecnologia.",
+        "numero da sorte" : 30
+        },
+    "capricornio" : {
+        "mensagem" : "Visualize o que quer para o futuro, lance um projeto e aumente a exposição. O dia trará popularidade e projeção. Uma nova atividade será estruturada passo por passo. Elabore contratos, desenvolva ideias e plante sementes que resultarão em mais estabilidade e segurança. Romantismo e entendimento no amor. Surpreenda o par e intensifique a vida íntima.",
+        "numero da sorte" : 21
+        },
+    "aquario" : {
+        "mensagem" : "Clima agitado nas relações: se você agir sem pensar, poderá provocar conflitos. Respire fundo e longamente. Pense com calma antes de tomar decisões importantes que envolverão a família, o casamento e associações. Acordos financeiros terão bom andamento, mesmo que respostas e pagamentos não venham imediatamente. Cuide da sua imagem e reputação. Viagem à vista!",
+        "numero da sorte" : 27
+        },
+    "peixes" : {
+        "mensagem" : "Mergulhe fundo nos sentimentos, siga a intuição e abra um novo caminho no trabalho. O dia será agitado por excesso de demandas que provocam ansiedade. Mantenha a serenidade diante de situações que você não pode mudar. Enquanto aguarda por novas oportunidades, dê atenção à família, a um projeto da casa e curta momentos mágicos e encantadores com os filhos ou o par.",
+        "numero da sorte" : 8
+        }
+}
+
+@app.route("/<signo>", methods=["GET"])
+def horoscopo(signo):
+  response = jsonify(signos[signo])
+  response.headers.add("Access-Control-Allow-Origin", "*")
+  return response
+
+if __name__ == "__main__":
+  app.run()
