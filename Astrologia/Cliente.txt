@@ -1,20 +1,28 @@
-import org.springframework.web.client.RestTemplate;
+import requests
+import json
+import textwrap
 
-public class Astrologia {
-
-    private static final String BASE_URL = "http://localhost:5000/api/astrology";
-
-    public static void main(String[] args) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String sign = "Aries";
-
-        MensagemDoDia mensagemDia = restTemplate.getForObject(BASE_URL + "/" + sign, MensagemDoDia.class);
-        System.out.println("Mensagem do dia para " + sign + ": " + mensagemDia.getMensagem());
-
-        AdvancedInfoAstrologia advancedInfo = restTemplate.getForObject(BASE_URL + "/" + sign + "/advanced", AdvancedInfo.class);
-        System.out.println("Inforamção Astrológica para " + sign + ":");
-        System.out.println("Lucky Number: " + advancedInfo.getLuckyNumber());
-        System.out.println("Previsão da semana: " + advancedInfo.getPrevisaoSemana());
-    }
-}
+class Usuario:
+  def __init__(self, plano, signo):
+    self.plano = plano
+    self.signo = signo
+  
+  def get_informacao(self,url):
+    urlBase = f"{url}/{self.signo}"
+    response = requests.get(urlBase)
+    print(response)
+    data = response.json()
+    match self.plano:
+      case 1:
+        print(textwrap.fill("\tA mensagem do dia é: %s"%(data["mensagem"]), width=70))
+      case 2:
+        print(textwrap.fill(f"\tUma pessoa de %s é definida por \"%s\" e \"%s.\"\n\tA mensagem do dia é:\n%s"%(self.signo, data["positivos"], data["negativos"], data["mensagem"]), width=70))
+      case _:
+        print("plano não existe.")
+        
+usuario1 = Usuario(1, "ares")
+usuario2 = Usuario(2, "capricornio")
+print("Digite o url da api.")
+usuario1.get_informacao(input())
+print("Digite o url da api.")
+usuario2.get_informacao(input())  
